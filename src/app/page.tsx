@@ -27,8 +27,8 @@ interface JogosProps {
 	equipeB: string;
 	imagemB?: string;
 	representanteB: string;
-	placarA?: number | null | undefined;
-	placarB?: number | null | undefined;
+	placarA: number;
+	placarB: number;
 	status: string;
 	finalizado: boolean;
 }
@@ -267,8 +267,8 @@ export default function Home() {
 			equipeB: "Time B",
 			imagemB: "/bandeiras/Flag_of_Portugal.png",
 			representanteB: "Representante",
-			// placarA: 2,
-			// placarB: 4,
+			placarA: 2,
+			placarB: 4,
 			status: "Agendado",
 			finalizado: false,
 		},
@@ -357,17 +357,15 @@ export default function Home() {
 					<div className="flex flex-col gap-4 w-full">
 						{jogosManha.map((jogo) => {
 							function determinarVencedor(jogo: JogosProps) {
-								if (jogo.placarA !== undefined && jogo.placarB !== undefined) {
+								if (jogo.finalizado) {
 									if (jogo.placarA > jogo.placarB) {
 										return "equipeA";
-									} else if (jogo.placarA < jogo.placarB) {
-										return "equipeB";
-									} else {
-										return null; // Empate
 									}
-								} else {
-									return null; // Valores de placar indefinidos
+									if (jogo.placarA < jogo.placarB) {
+										return "equipeB";
+									}
 								}
+								return null; // Empate
 							}
 
 							return (
@@ -410,9 +408,11 @@ export default function Home() {
 													{jogo.equipeA} ({jogo.representanteA})
 												</span>
 
-												<span className="font-bold text-4xl">
-													{jogo.placarA}
-												</span>
+												{jogo.finalizado && (
+													<span className="font-bold text-4xl">
+														{jogo.placarA}
+													</span>
+												)}
 											</div>
 											<span>x</span>
 											<div
@@ -422,9 +422,11 @@ export default function Home() {
 														: ""
 												}`}
 											>
-												<span className="font-bold text-4xl">
-													{jogo.placarB}
-												</span>
+												{jogo.finalizado && (
+													<span className="font-bold text-4xl">
+														{jogo.placarB}
+													</span>
+												)}
 
 												<span className="flex flex-row gap-2">
 													{jogo.equipeB} ({jogo.representanteB}){" "}
