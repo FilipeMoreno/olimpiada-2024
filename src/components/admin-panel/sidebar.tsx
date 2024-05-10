@@ -32,7 +32,7 @@ export function Sidebar() {
 					<Link href="/#" className="flex items-center gap-2">
 						<Image
 							src="/icons/icon-512x512.png"
-							alt="Brand"
+							alt="Logo do Colégio Santo Inácio"
 							width={50}
 							height={50}
 							className={cn(
@@ -44,7 +44,7 @@ export function Sidebar() {
 						/>
 						<Image
 							src="/logo.png"
-							alt="Brand"
+							alt="Logo do Colégio Santo Inácio"
 							width={200}
 							height={100}
 							className={cn(

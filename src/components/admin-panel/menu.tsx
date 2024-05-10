@@ -1,6 +1,6 @@
 "use client";
 
-import { Ellipsis, LogOut } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

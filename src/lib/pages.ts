@@ -1,11 +1,4 @@
-import {
-	Bookmark,
-	LayoutGrid,
-	Settings,
-	SquarePen,
-	Tag,
-	Users,
-} from "lucide-react";
+import { CalendarClock, Flag, Trophy } from "lucide-react";
 
 type Submenu = {
 	href: string;
@@ -47,7 +40,7 @@ export function getPages(pathname: string): Group[] {
 					href: "",
 					label: "Jogos",
 					active: pathname.includes("/#"),
-					icon: SquarePen,
+					icon: CalendarClock,
 					submenus: [
 						{
 							href: "#",
@@ -75,14 +68,14 @@ export function getPages(pathname: string): Group[] {
 					href: "/times",
 					label: "Times",
 					active: pathname.includes("/times"),
-					icon: Bookmark,
+					icon: Flag,
 					submenus: [],
 				},
 				{
 					href: "/campeoes",
 					label: "Campeões",
 					active: pathname.includes("/campeoes"),
-					icon: Tag,
+					icon: Trophy,
 					submenus: [],
 				},
 			],
