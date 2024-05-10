@@ -277,196 +277,117 @@ export default function Home() {
 	const jogosManha = jogos.filter((jogo) => jogo.periodo === "Manhã");
 	const jogosTarde = jogos.filter((jogo) => jogo.periodo === "Tarde");
 	return (
-		<div className="grid min-h-screen w-full grid-cols-[280px_1fr]">
-			<div className="hidden border-r lg:block">
-				<div className="flex h-full max-h-screen flex-col gap-2">
-					<div className="flex h-[60px] items-center border-b px-6">
-						<Link
-							className="flex items-center justify-center gap-2 font-semibold"
-							href="#"
-						>
-							<Image
-								src="/logo.png"
-								width={250}
-								height={200}
-								alt="Logo do Colégio Santo Inácio"
-								className="p-4 my-4 flex items-center justify-center"
-							/>
-						</Link>
-					</div>
-					<div className="flex flex-col items-center justify-center text-sm text-zinc-300 font-bold">
-						<span>XXXIX OLIMPÍADA INTERNA</span>
-						<span>2024</span>
-					</div>
-					<div className="flex-1 overflow-auto py-2">
-						<nav className="grid items-start px-4 text-sm font-medium">
-							<Link
-								className="flex items-center gap-3 rounded-lg  px-3 py-2 text-gray-900 transition-all hover:text-gray-900 bg-primary-foreground dark:text-gray-50 dark:hover:text-gray-50"
-								href="#"
-							>
-								<CalendarIcon className="h-4 w-4" />
-								Programação
-							</Link>
-							<Link
-								className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-								href="#"
-							>
-								<TrophyIcon className="h-4 w-4" />
-								Campeões
-							</Link>
-							<Link
-								className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-								href="#"
-							>
-								<UsersIcon className="h-4 w-4" />
-								Times
-							</Link>
-						</nav>
-					</div>
-					<div className="bottom-0 left-0 right-0 flex flex-col items-center justify-center">
-						<Image
-							alt="Logo"
-							width={20}
-							height={20}
-							src={"/icons/icon-512x512.png"}
-							className="mb-1"
-						/>
-						<span className="text-xs text-zinc-500">v1.0.0</span>
-					</div>
-					<div className="flex flex-row items-center justify-center text-xs mb-3">
-						<CodeIcon className="mr-1 h-4 w-4 text-zinc-500" />
-						<span className="text-zinc-500">Developed with</span>
-						<HeartFilledIcon className="mx-1 h-4 w-4 text-tertiary" />
-						<span className="text-zinc-500">
-							by{" "}
-							<Link
-								className="hover:text-tertiary"
-								href="https://filipemoreno.com.br"
-							>
-								Filipe Moreno
-							</Link>
-						</span>
-					</div>
-				</div>
-			</div>
-			<div className="flex flex-col w-full">
-				<main className="flex flex-1 flex-col gap-4 p-4 w-full">
-					<div>
-						<h1 className="text-2xl font-bold">FUTSAL</h1>
-					</div>
-					<div className="flex flex-col gap-4 w-full">
-						{jogosManha.map((jogo) => {
-							function determinarVencedor(jogo: JogosProps) {
-								if (jogo.finalizado) {
-									if (jogo.placarA > jogo.placarB) {
-										return "equipeA";
-									}
-									if (jogo.placarA < jogo.placarB) {
-										return "equipeB";
-									}
+		<div className="flex flex-col w-full">
+			<main className="flex flex-1 flex-col gap-4 p-4 w-full">
+				<div className="flex flex-col gap-4 w-full">
+					{jogosManha.map((jogo) => {
+						function determinarVencedor(jogo: JogosProps) {
+							if (jogo.finalizado) {
+								if (jogo.placarA > jogo.placarB) {
+									return "equipeA";
 								}
-								return null; // Empate
+								if (jogo.placarA < jogo.placarB) {
+									return "equipeB";
+								}
 							}
+							return null; // Empate
+						}
 
-							return (
-								<Card
-									key={jogo.id}
-									className="flex flex-col bg-secondary w-full"
-								>
-									<CardHeader>
-										<CardTitle>
-											<div className="flex justify-center items-center gap-2">
-												<span>Jogo {jogo.numeroJogo}</span>
-												<span>•</span>
-												<span>
-													{jogo.data} às {jogo.hora}
-												</span>
-											</div>
-										</CardTitle>
-									</CardHeader>
-									<CardContent>
+						return (
+							<Card key={jogo.id} className="flex flex-col bg-secondary w-full">
+								<CardHeader>
+									<CardTitle>
+										<div className="flex justify-center items-center gap-2">
+											<span>Jogo {jogo.numeroJogo}</span>
+											<span>•</span>
+											<span>
+												{jogo.data} às {jogo.hora}
+											</span>
+										</div>
+									</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<div
+										className={`flex flex-row justify-center items-center gap-2 ${
+											jogo.finalizado ? "font-normal" : "font-bold"
+										}`}
+									>
 										<div
-											className={`flex flex-row justify-center items-center gap-2 ${
-												jogo.finalizado ? "font-normal" : "font-bold"
+											className={`flex justify-between items-center gap-2 ${
+												determinarVencedor(jogo) === "equipeA"
+													? "text-green-500 font-bold"
+													: ""
 											}`}
 										>
-											<div
-												className={`flex justify-between items-center gap-2 ${
-													determinarVencedor(jogo) === "equipeA"
-														? "text-green-500 font-bold"
-														: ""
-												}`}
-											>
-												<span className="flex flex-row gap-2">
-													<Image
-														src={jogo.imagemA || "/bandeiras/sem_foto.png"}
-														alt={`Bandeira do ${jogo.equipeA}`}
-														width={32}
-														height={32}
-														className="rounded-md"
-													/>
-													{jogo.equipeA} ({jogo.representanteA})
-												</span>
+											<span className="flex flex-row gap-2">
+												<Image
+													src={jogo.imagemA || "/bandeiras/sem_foto.png"}
+													alt={`Bandeira do ${jogo.equipeA}`}
+													width={32}
+													height={32}
+													className="rounded-md"
+												/>
+												{jogo.equipeA} ({jogo.representanteA})
+											</span>
 
-												{jogo.finalizado && (
-													<span className="font-bold text-4xl">
-														{jogo.placarA}
-													</span>
-												)}
-											</div>
-											<span>x</span>
-											<div
-												className={`flex justify-between items-center gap-2 ${
-													determinarVencedor(jogo) === "equipeB"
-														? "text-green-500 font-bold"
-														: ""
-												}`}
-											>
-												{jogo.finalizado && (
-													<span className="font-bold text-4xl">
-														{jogo.placarB}
-													</span>
-												)}
-
-												<span className="flex flex-row gap-2">
-													{jogo.equipeB} ({jogo.representanteB}){" "}
-													<Image
-														src={jogo.imagemB || "/bandeiras/sem_foto.png"}
-														alt={`Bandeira do ${jogo.equipeB}`}
-														width={32}
-														height={32}
-														className="rounded-md"
-													/>
+											{jogo.finalizado && (
+												<span className="font-bold text-4xl">
+													{jogo.placarA}
 												</span>
-											</div>
+											)}
 										</div>
-									</CardContent>
-									<CardFooter className="flex justify-center gap-4">
+										<span>x</span>
+										<div
+											className={`flex justify-between items-center gap-2 ${
+												determinarVencedor(jogo) === "equipeB"
+													? "text-green-500 font-bold"
+													: ""
+											}`}
+										>
+											{jogo.finalizado && (
+												<span className="font-bold text-4xl">
+													{jogo.placarB}
+												</span>
+											)}
+
+											<span className="flex flex-row gap-2">
+												{jogo.equipeB} ({jogo.representanteB}){" "}
+												<Image
+													src={jogo.imagemB || "/bandeiras/sem_foto.png"}
+													alt={`Bandeira do ${jogo.equipeB}`}
+													width={32}
+													height={32}
+													className="rounded-md"
+												/>
+											</span>
+										</div>
+									</div>
+								</CardContent>
+								<CardFooter className="flex justify-center gap-4">
+									<Badge
+										className={
+											jogo.finalizado ? "bg-green-500" : "bg-yellow-500"
+										}
+									>
+										{jogo.status}
+									</Badge>
+									<div>
 										<Badge
 											className={
-												jogo.finalizado ? "bg-green-500" : "bg-yellow-500"
+												(jogo.modalidade === "Futsal Feminino" &&
+													"bg-pink-400") ||
+												"bg-blue-400"
 											}
 										>
-											{jogo.status}
+											{jogo.modalidade}
 										</Badge>
-										<div>
-											<Badge
-												className={
-													(jogo.modalidade === "Futsal Feminino" &&
-														"bg-pink-400") ||
-													"bg-blue-400"
-												}
-											>
-												{jogo.modalidade}
-											</Badge>
-										</div>
-									</CardFooter>
-								</Card>
-							);
-						})}
-					</div>
-				</main>
-			</div>
+									</div>
+								</CardFooter>
+							</Card>
+						);
+					})}
+				</div>
+			</main>
 		</div>
 	);
 }
