@@ -8,10 +8,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { CodeIcon, HeartFilledIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 
 import Link from "next/link";
-import { useState } from "react";
+import { type JSX, type SVGProps, useState } from "react";
 
 interface JogosProps {
 	id: number;
@@ -21,16 +22,20 @@ interface JogosProps {
 	periodo: string;
 	modalidade: string;
 	equipeA: string;
+	imagemA?: string;
 	representanteA: string;
 	equipeB: string;
+	imagemB?: string;
 	representanteB: string;
-	placarA?: number | null;
-	placarB?: number | null;
+	placarA?: number | null | undefined;
+	placarB?: number | null | undefined;
 	status: string;
 	finalizado: boolean;
 }
 
-function BellIcon(props) {
+function CalendarIcon(
+	props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
+) {
 	return (
 		<svg
 			{...props}
@@ -43,26 +48,7 @@ function BellIcon(props) {
 			strokeWidth="2"
 			strokeLinecap="round"
 			strokeLinejoin="round"
-		>
-			<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-			<path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-		</svg>
-	);
-}
-
-function CalendarIcon(props) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
+			role="graphics-symbol"
 		>
 			<path d="M8 2v4" />
 			<path d="M16 2v4" />
@@ -72,7 +58,7 @@ function CalendarIcon(props) {
 	);
 }
 
-function NewspaperIcon(props) {
+function TrophyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 	return (
 		<svg
 			{...props}
@@ -85,28 +71,7 @@ function NewspaperIcon(props) {
 			strokeWidth="2"
 			strokeLinecap="round"
 			strokeLinejoin="round"
-		>
-			<path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
-			<path d="M18 14h-8" />
-			<path d="M15 18h-5" />
-			<path d="M10 6h8v4h-8V6Z" />
-		</svg>
-	);
-}
-
-function TrophyIcon(props) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
+			role="graphics-symbol"
 		>
 			<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
 			<path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
@@ -118,7 +83,7 @@ function TrophyIcon(props) {
 	);
 }
 
-function UsersIcon(props) {
+function UsersIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 	return (
 		<svg
 			{...props}
@@ -131,6 +96,7 @@ function UsersIcon(props) {
 			strokeWidth="2"
 			strokeLinecap="round"
 			strokeLinejoin="round"
+			role="graphics-symbol"
 		>
 			<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
 			<circle cx="9" cy="7" r="4" />
@@ -270,13 +236,49 @@ export default function Home() {
 			status: "Encerrado",
 			finalizado: true,
 		},
+		{
+			id: 9,
+			numeroJogo: 30,
+			modalidade: "Futsal Feminino",
+			data: "00/00/0000",
+			hora: "00:00",
+			periodo: "Manhã",
+			equipeA: "Time A",
+			imagemA: "/bandeiras/Flag_of_Argentina.webp",
+			representanteA: "Representante",
+			equipeB: "Time B",
+			imagemB: "/bandeiras/Flag_of_Spain.png",
+			representanteB: "Representante",
+			placarA: 2,
+			placarB: 2,
+			status: "Encerrado",
+			finalizado: true,
+		},
+		{
+			id: 10,
+			numeroJogo: 100,
+			modalidade: "Futsal Masculino",
+			data: "00/00/0000",
+			hora: "00:00",
+			periodo: "Manhã",
+			equipeA: "Time A",
+			imagemA: "/bandeiras/Flag_of_Brazil.png",
+			representanteA: "Representante",
+			equipeB: "Time B",
+			imagemB: "/bandeiras/Flag_of_Portugal.png",
+			representanteB: "Representante",
+			// placarA: 2,
+			// placarB: 4,
+			status: "Agendado",
+			finalizado: false,
+		},
 	]);
 
 	const jogosManha = jogos.filter((jogo) => jogo.periodo === "Manhã");
 	const jogosTarde = jogos.filter((jogo) => jogo.periodo === "Tarde");
 	return (
 		<div className="grid min-h-screen w-full grid-cols-[280px_1fr]">
-			<div className="hidden border-r bg-secondary lg:block">
+			<div className="hidden border-r lg:block">
 				<div className="flex h-full max-h-screen flex-col gap-2">
 					<div className="flex h-[60px] items-center border-b px-6">
 						<Link
@@ -303,55 +305,81 @@ export default function Home() {
 								href="#"
 							>
 								<CalendarIcon className="h-4 w-4" />
-								Schedule
+								Programação
 							</Link>
 							<Link
 								className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
 								href="#"
 							>
 								<TrophyIcon className="h-4 w-4" />
-								Standings
+								Campeões
 							</Link>
 							<Link
 								className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
 								href="#"
 							>
 								<UsersIcon className="h-4 w-4" />
-								Teams
-							</Link>
-							<Link
-								className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-								href="#"
-							>
-								<NewspaperIcon className="h-4 w-4" />
-								News
+								Times
 							</Link>
 						</nav>
 					</div>
+					<div className="bottom-0 left-0 right-0 flex flex-col items-center justify-center">
+						<Image
+							alt="Logo"
+							width={20}
+							height={20}
+							src={"/icons/icon-512x512.png"}
+							className="mb-1"
+						/>
+						<span className="text-xs text-zinc-500">v1.0.0</span>
+					</div>
+					<div className="flex flex-row items-center justify-center text-xs mb-3">
+						<CodeIcon className="mr-1 h-4 w-4 text-zinc-500" />
+						<span className="text-zinc-500">Developed with</span>
+						<HeartFilledIcon className="mx-1 h-4 w-4 text-tertiary" />
+						<span className="text-zinc-500">
+							by{" "}
+							<Link
+								className="hover:text-tertiary"
+								href="https://filipemoreno.com.br"
+							>
+								Filipe Moreno
+							</Link>
+						</span>
+					</div>
 				</div>
 			</div>
-			<div className="flex flex-col">
-				<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+			<div className="flex flex-col w-full">
+				<main className="flex flex-1 flex-col gap-4 p-4 w-full">
 					<div>
 						<h1 className="text-2xl font-bold">FUTSAL</h1>
 					</div>
-					<div className="flex flex-col gap-4">
+					<div className="flex flex-col gap-4 w-full">
 						{jogosManha.map((jogo) => {
 							function determinarVencedor(jogo: JogosProps) {
-								if (jogo.placarA > jogo.placarB) {
-									return "equipeA";
-								} else if (jogo.placarA < jogo.placarB) {
-									return "equipeB";
+								if (jogo.placarA !== undefined && jogo.placarB !== undefined) {
+									if (jogo.placarA > jogo.placarB) {
+										return "equipeA";
+									} else if (jogo.placarA < jogo.placarB) {
+										return "equipeB";
+									} else {
+										return null; // Empate
+									}
 								} else {
-									return null; // Empate
+									return null; // Valores de placar indefinidos
 								}
 							}
+
 							return (
-								<Card key={jogo.id} className="bg-secondary">
+								<Card
+									key={jogo.id}
+									className="flex flex-col bg-secondary w-full"
+								>
 									<CardHeader>
 										<CardTitle>
-											<div className="flex justify-between items-center">
+											<div className="flex justify-center items-center gap-2">
 												<span>Jogo {jogo.numeroJogo}</span>
+												<span>•</span>
 												<span>
 													{jogo.data} às {jogo.hora}
 												</span>
@@ -360,37 +388,58 @@ export default function Home() {
 									</CardHeader>
 									<CardContent>
 										<div
-											className={`flex flex-col gap-2 ${
+											className={`flex flex-row justify-center items-center gap-2 ${
 												jogo.finalizado ? "font-normal" : "font-bold"
 											}`}
 										>
 											<div
-												className={`flex justify-between ${
+												className={`flex justify-between items-center gap-2 ${
 													determinarVencedor(jogo) === "equipeA"
 														? "text-green-500 font-bold"
 														: ""
 												}`}
 											>
-												<span>
+												<span className="flex flex-row gap-2">
+													<Image
+														src={jogo.imagemA || "/bandeiras/sem_foto.png"}
+														alt={`Bandeira do ${jogo.equipeA}`}
+														width={32}
+														height={32}
+														className="rounded-md"
+													/>
 													{jogo.equipeA} ({jogo.representanteA})
 												</span>
-												<span>{jogo.placarA}</span>
+
+												<span className="font-bold text-4xl">
+													{jogo.placarA}
+												</span>
 											</div>
+											<span>x</span>
 											<div
-												className={`flex justify-between ${
+												className={`flex justify-between items-center gap-2 ${
 													determinarVencedor(jogo) === "equipeB"
 														? "text-green-500 font-bold"
 														: ""
 												}`}
 											>
-												<span>
-													{jogo.equipeB} ({jogo.representanteB})
+												<span className="font-bold text-4xl">
+													{jogo.placarB}
 												</span>
-												<span>{jogo.placarB}</span>
+
+												<span className="flex flex-row gap-2">
+													{jogo.equipeB} ({jogo.representanteB}){" "}
+													<Image
+														src={jogo.imagemB || "/bandeiras/sem_foto.png"}
+														alt={`Bandeira do ${jogo.equipeB}`}
+														width={32}
+														height={32}
+														className="rounded-md"
+													/>
+												</span>
 											</div>
 										</div>
 									</CardContent>
-									<CardFooter className="flex justify-between">
+									<CardFooter className="flex justify-center gap-4">
 										<Badge
 											className={
 												jogo.finalizado ? "bg-green-500" : "bg-yellow-500"

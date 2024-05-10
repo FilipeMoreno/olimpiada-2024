@@ -17,7 +17,9 @@ export const metadata: Metadata = {
 	description: "Programação da XXXIX Olimpíada Interna do Colégio Santo Inácio",
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({
+	children,
+}: { children: React.ReactNode }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head />
