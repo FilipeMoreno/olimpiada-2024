@@ -8,10 +8,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { CodeIcon, HeartFilledIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 
-import Link from "next/link";
 import { type JSX, type SVGProps, useState } from "react";
 
 interface JogosProps {
