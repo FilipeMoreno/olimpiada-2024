@@ -155,7 +155,7 @@ export default function TimesIndex() {
 			serie: "2ª SÉRIE",
 			turma: "A",
 			pais: "HOLANDA",
-			bandeira: "/bandeiras/Flag_Netherlands.png",
+			bandeira: "/bandeiras/Flag_of_Netherlands.png",
 		},
 		{
 			id: 18,
