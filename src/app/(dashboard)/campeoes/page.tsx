@@ -20,6 +20,26 @@ import Image from "next/image";
 import { useState } from "react";
 import { FaMedal, FaTrophy } from "react-icons/fa";
 
+interface Campeao {
+	posicao: number;
+	pais: string;
+	bandeira: string;
+	serie?: string;
+	turma?: string;
+	representante?: string;
+}
+
+interface CampeoesPorModalidade {
+	Futsal: Campeao[];
+	Vôlei: Campeao[];
+	Handebol: Campeao[];
+	Basquete: Campeao[];
+}
+
+interface CampeoesPorTurma {
+	[turma: string]: CampeoesPorModalidade;
+}
+
 export default function CampeoesIndex() {
 	const campeoes = {
 		"6º ANO": {
@@ -173,9 +193,9 @@ export default function CampeoesIndex() {
 		},
 	};
 
-	const [selectedTurma, setSelectedTurma] = useState("6º ANO");
+	const [selectedTurma, setSelectedTurma] = useState<string>("6º ANO");
 
-	const handleTurmaChange = (value) => {
+	const handleTurmaChange = (value: string) => {
 		setSelectedTurma(value);
 	};
 
@@ -186,6 +206,13 @@ export default function CampeoesIndex() {
 		serie,
 		turma,
 		representante,
+	}: {
+		posicao: number;
+		pais: string;
+		bandeira: string;
+		serie?: string;
+		turma?: string;
+		representante?: string;
 	}) => (
 		<Card
 			key={posicao}
@@ -224,7 +251,10 @@ export default function CampeoesIndex() {
 		</Card>
 	);
 
-	const ModalidadePodio = ({ modalidade, campeoes }) => (
+	const ModalidadePodio = ({
+		modalidade,
+		campeoes,
+	}: { modalidade: string; campeoes: Campeao[] }) => (
 		<div className="mb-8">
 			<h2 className="text-2xl font-bold my-12 text-center uppercase">
 				{modalidade}
@@ -261,13 +291,15 @@ export default function CampeoesIndex() {
 			</div>
 			<h1 className="text-xl text-center font-bold">Pódio</h1>
 			<h1 className="text-xl text-center font-bold">{selectedTurma}S</h1>
-			{Object.keys(campeoes[selectedTurma]).map((modalidade) => (
-				<ModalidadePodio
-					key={modalidade}
-					modalidade={modalidade}
-					campeoes={campeoes[selectedTurma][modalidade]}
-				/>
-			))}
+			{Object.entries(campeoes[selectedTurma as keyof typeof campeoes]).map(
+				([modalidade, campeoesPorModalidade]) => (
+					<ModalidadePodio
+						key={modalidade}
+						modalidade={modalidade}
+						campeoes={campeoesPorModalidade as Campeao[]}
+					/>
+				),
+			)}
 		</div>
 	);
 }

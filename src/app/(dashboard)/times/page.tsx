@@ -1,6 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 
+interface Time {
+	id: number;
+	serie: string;
+	turma: string;
+	pais: string;
+	bandeira: string;
+}
+
 export default function TimesIndex() {
 	const times = [
 		{
@@ -173,8 +181,7 @@ export default function TimesIndex() {
 		},
 	];
 
-	// Agrupando os dados por série
-	const groupedTimes = times.reduce((acc, time) => {
+	const groupedTimes = times.reduce<Record<string, Time[]>>((acc, time) => {
 		if (!acc[time.serie]) {
 			acc[time.serie] = [];
 		}
