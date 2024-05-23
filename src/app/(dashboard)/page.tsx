@@ -30,7 +30,7 @@ export default function Countdown() {
 
 	return (
 		<div className="flex flex-col items-center justify-center">
-			<h1>ABERTURA</h1>
+			<h1 className="font-pirateOne text-4xl">ABERTURA DA OLIMPÍADA 2024</h1>
 			<TimerContainer
 				days={timeLeft.days}
 				hours={timeLeft.hours}

@@ -62,19 +62,19 @@ export const TimerContainer = ({
 	return (
 		<div className=" mt-2 md:mt-20  rounded-xl">
 			<div className="grid grid-cols-2 gap-4 py-6 px-10 md:flex md:items-center md:justify-between md:mt-2  rounded-xl md:px-6 md:py-8 ">
-				<NumberBox num={days} unit="Dias" flip={daysFlip} />
+				<NumberBox num={days} unit="dias" flip={daysFlip} />
 				<span className=" hidden text-5xl -mt-8 md:inline-block md:text-7xl font-normal text-secondary ">
 					:
 				</span>
-				<NumberBox num={hours} unit="Horas" flip={hoursFlip} />
+				<NumberBox num={hours} unit="horas" flip={hoursFlip} />
 				<span className="hidden text-5xl -mt-8 md:inline-block md:text-7xl font-normal text-secondary ">
 					:
 				</span>
-				<NumberBox num={minutes} unit="Minutos" flip={minutesFlip} />
+				<NumberBox num={minutes} unit="minutos" flip={minutesFlip} />
 				<span className="hidden text-5xl -mt-8 md:inline-block md:text-7xl font-normal text-secondary ">
 					:
 				</span>
-				<NumberBox num={seconds} unit="Segundos" flip={secondsFlip} />
+				<NumberBox num={seconds} unit="segundos" flip={secondsFlip} />
 			</div>
 		</div>
 	);
