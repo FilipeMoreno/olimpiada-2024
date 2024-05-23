@@ -19,23 +19,23 @@ export const TimerContainer = ({
 	let minutesFlip = false;
 	let secondsFlip = true;
 
-	if (seconds <= 0 && minutes <= 0 && hours <= 0 && days <= 0) {
+	if (+seconds <= 0 && +minutes <= 0 && +hours <= 0 && +days <= 0) {
 		daysFlip = false;
 		hoursFlip = false;
 		minutesFlip = false;
 		secondsFlip = false;
 	}
 
-	if (seconds == 0) {
-		if (minutes != 0) {
+	if (+seconds === 0) {
+		if (+minutes !== 0) {
 			seconds = 59;
 		}
 
 		secondsFlip = false;
 		minutesFlip = true;
 	}
-	if (minutes == 0) {
-		if (hours != 0) {
+	if (minutes === 0) {
+		if (hours !== 0) {
 			minutes = 59;
 		}
 
@@ -43,27 +43,20 @@ export const TimerContainer = ({
 		hoursFlip = true;
 	}
 
-	if (hours == 0) {
-		hoursFlip = false;
-		if (days != 0) {
-			daysFlip = true;
-		}
+	if (typeof days === "number" && days < 10) {
+		days = `0${days}`;
 	}
 
-	if (days < 10) {
-		days = "0" + days;
+	if (typeof hours === "number" && hours < 10) {
+		hours = `0${hours}`;
 	}
 
-	if (hours < 10) {
-		hours = "0" + hours;
+	if (typeof minutes === "number" && minutes < 10) {
+		minutes = `0${minutes}`;
 	}
 
-	if (minutes < 10) {
-		minutes = "0" + minutes;
-	}
-
-	if (seconds < 10) {
-		seconds = "0" + seconds;
+	if (typeof seconds === "number" && seconds < 10) {
+		seconds = `0${seconds}`;
 	}
 
 	return (

@@ -19,6 +19,7 @@ export default function Countdown() {
 
 	const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setTimeLeft(calculateTimeLeft());
