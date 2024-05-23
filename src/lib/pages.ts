@@ -37,35 +37,35 @@ export function getPages(pathname: string): Group[] {
 			groupLabel: "",
 			menus: [
 				{
-					href: "",
+					href: "/jogos",
 					label: "Jogos",
-					active: pathname.includes("/#"),
+					active: pathname.includes("/jogos"),
 					icon: CalendarClock,
 					submenus: [
 						{
-							href: "/?jogos=segunda",
+							href: "/jogos?dia=segunda",
 							label: "Segunda-Feira",
-							active: pathname === "/?jogos=segunda",
+							active: pathname === "/jogos?dia=segunda",
 						},
 						{
-							href: "/?jogos=terca",
+							href: "/jogos?dia=terca",
 							label: "Terça-Feira",
-							active: pathname === "/?jogos=terca",
+							active: pathname === "/jogos?dia=terca",
 						},
 						{
-							href: "/?jogos=quarta",
+							href: "/jogos?dia=quarta",
 							label: "Quarta-Feira",
-							active: pathname === "/?jogos=quarta",
+							active: pathname === "/jogos?dia=quarta",
 						},
 						{
-							href: "/?jogos=quinta",
+							href: "/jogos?dia=quinta",
 							label: "Quinta-Feira",
-							active: pathname === "/?jogos=quinta",
+							active: pathname === "/jogos?dia=quinta",
 						},
 						{
-							href: "/?jogos=sexta",
+							href: "/jogos?dia=sexta",
 							label: "Sexta-Feira",
-							active: pathname === "/?jogos=sexta",
+							active: pathname === "/jogos?dia=sexta",
 						},
 					],
 				},

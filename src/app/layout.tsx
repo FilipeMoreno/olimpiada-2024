@@ -1,16 +1,29 @@
 import type { Metadata } from "next";
 
 import "@/styles/globals.css";
-import { Inter as FontSans, Inter } from "next/font/google";
+import { Inter, Pacifico, Pirata_One } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 
-const fontSans = FontSans({
+const inter = Inter({
 	subsets: ["latin"],
-	variable: "--font-sans",
+	display: "swap",
+	variable: "--font-inter",
 });
 
-const inter = Inter({ subsets: ["latin"] });
+const pacifico = Pacifico({
+	subsets: ["latin"],
+	weight: "400",
+	display: "swap",
+	variable: "--font-pacifico",
+});
+
+const pirateOne = Pirata_One({
+	subsets: ["latin"],
+	weight: "400",
+	display: "swap",
+	variable: "--font-pirate-one",
+});
 
 export const metadata: Metadata = {
 	title: "XXXIX Olimpíada Interna - Colégio Santo Inácio",
@@ -21,12 +34,13 @@ export default function RootLayout({
 	children,
 }: { children: React.ReactNode }) {
 	return (
-		<html lang="en" suppressHydrationWarning>
-			<head />
+		<html lang="pt-BR" className="antialiased" suppressHydrationWarning>
 			<body
 				className={cn(
 					"dark min-h-screen font-sans antialiased",
-					fontSans.variable,
+					inter.variable,
+					pacifico.variable,
+					pirateOne.variable,
 				)}
 			>
 				{children}
