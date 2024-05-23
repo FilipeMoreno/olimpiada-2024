@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import {
 	Card,
 	CardContent,
-	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
@@ -13,10 +12,8 @@ import Image from "next/image";
 import { MdBlock } from "react-icons/md";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from "@radix-ui/react-dropdown-menu";
-import { Input } from "postcss";
-import { type JSX, type SVGProps, useState } from "react";
-import { Button } from "react-day-picker";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface JogosProps {
 	id: number;
@@ -40,6 +37,19 @@ interface JogosProps {
 export default function JogosIndex() {
 	const liberado = true;
 	const [periodo, setPeriodo] = useState("Manhã");
+	const [dia, setDia] = useState("Segunda");
+	const searchParams = useSearchParams();
+
+	useEffect(() => {
+		const diaParam = searchParams.get("dia");
+		if (diaParam) {
+			if (diaParam === "segunda") setDia("Segunda-Feira");
+			if (diaParam === "terca") setDia("Terça-Feira");
+			if (diaParam === "quarta") setDia("Quarta-Feira");
+			if (diaParam === "quinta") setDia("Quinta-Feira");
+			if (diaParam === "sexta") setDia("Sexta-Feira");
+		}
+	}, [searchParams]);
 
 	const [jogos, setJogos] = useState<JogosProps[]>([
 		{
@@ -222,16 +232,17 @@ export default function JogosIndex() {
 	const jogosTarde = jogos.filter((jogo) => jogo.periodo === "Tarde");
 	return (
 		<div className="flex flex-col w-full">
+			<h1 className="text-center font-bold text-4xl uppercase my-2">{dia}</h1>
 			<Tabs defaultValue={periodo} className="w-full my-2">
 				<TabsList className="grid w-full grid-cols-2">
-					<TabsTrigger value="manha">Manhã</TabsTrigger>
-					<TabsTrigger value="tardec">Tarde</TabsTrigger>
+					<TabsTrigger value="Manhã">Manhã</TabsTrigger>
+					<TabsTrigger value="Tarde">Tarde</TabsTrigger>
 				</TabsList>
-				<TabsContent value="manha">
-					<p>Manha</p>
+				<TabsContent value="Manhã">
+					<p>Manhã</p>
 				</TabsContent>
-				<TabsContent value="tardec">
-					<p>Tardfe</p>
+				<TabsContent value="Tarde">
+					<p>Tarde</p>
 				</TabsContent>
 			</Tabs>
 			{liberado && (
