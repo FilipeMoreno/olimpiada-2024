@@ -1,12 +1,5 @@
 "use client";
 import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import {
 	Select,
 	SelectContent,
 	SelectGroup,
@@ -214,55 +207,61 @@ export default function CampeoesIndex() {
 		turma?: string;
 		representante?: string;
 	}) => (
-		<Card
+		<div
 			key={posicao}
-			className={`flex flex-col items-center p-4 w-[250px] h-[250px] ${
-				posicao === 1 ? "scale-125 z-10" : ""
-			}`}
+			className="flex flex-col items-center justify-center gap-1 mx-3"
 		>
-			<CardHeader>
-				<CardTitle className="flex items-center space-x-2">
-					{posicao === 1 ? (
-						<FaTrophy className="text-yellow-500" size={24} />
-					) : (
-						<FaMedal
-							className={`text-${posicao === 2 ? "gray-400" : "yellow-700"}`}
-							size={24}
-						/>
-					)}
-					<span>{posicao}º Lugar</span>
-				</CardTitle>
-			</CardHeader>
-			<CardContent className="flex flex-col items-center gap-2">
+			{posicao === 1 ? (
+				<FaTrophy className="text-yellow-500" size={24} />
+			) : (
+				<FaMedal
+					className={`${posicao === 2 ? "text-gray-400" : "text-yellow-700"}`}
+					size={24}
+				/>
+			)}
+			<span className="font-bold">{posicao}º</span>
+			{posicao === 1 ? (
+				<Image
+					src={bandeira}
+					width={150}
+					height={100}
+					alt={`Bandeira do ${pais}`}
+					className="rounded-lg"
+				/>
+			) : (
 				<Image
 					src={bandeira}
 					width={100}
 					height={100}
 					alt={`Bandeira do ${pais}`}
+					className="rounded-lg"
 				/>
-				<p className="font-bold">{pais}</p>
-				<div className="flex flex-col text-xs items-center justify-center">
-					<span className="text-xs">
-						{serie} {turma}
-					</span>
-					<span>({representante})</span>
-				</div>
-			</CardContent>
-		</Card>
+			)}
+			<div className="flex flex-col items-center justify-center">
+				<span className="font-bold">
+					{serie} {turma}
+				</span>
+				<span>({representante})</span>
+			</div>
+		</div>
 	);
 
 	const ModalidadePodio = ({
 		modalidade,
 		campeoes,
 	}: { modalidade: string; campeoes: Campeao[] }) => (
-		<div className="mb-8">
-			<h2 className="text-2xl font-bold my-12 text-center uppercase">
+		<div className="flex flex-col justify-center items-center my-4 bg-secondary w-full h-full rounded-lg g p-4">
+			<h2 className="text-xl font-bold text-center uppercase bg-zinc-900 p-1 rounded-t-lg w-full">
 				{modalidade}
 			</h2>
-			<div className="flex flex-col md:flex-row justify-center items-center md:items-end gap-8">
-				<PodioCard {...campeoes[1]} />
-				<PodioCard {...campeoes[0]} />
-				<PodioCard {...campeoes[2]} />
+			<div className="flex flex-col items-center justify-center border-2 border-zinc-900 w-full p-2">
+				<div className="flex flex-row">
+					<PodioCard {...campeoes[1]} />
+
+					<PodioCard {...campeoes[0]} />
+
+					<PodioCard {...campeoes[2]} />
+				</div>
 			</div>
 		</div>
 	);
@@ -275,7 +274,7 @@ export default function CampeoesIndex() {
 				</label>
 				<Select onValueChange={handleTurmaChange}>
 					<SelectTrigger className="w-[180px]">
-						<SelectValue placeholder="Select a turma" />
+						<SelectValue placeholder="Selecione a turma" />
 					</SelectTrigger>
 					<SelectContent>
 						<SelectGroup>
@@ -289,8 +288,6 @@ export default function CampeoesIndex() {
 					</SelectContent>
 				</Select>
 			</div>
-			<h1 className="text-xl text-center font-bold">Pódio</h1>
-			<h1 className="text-xl text-center font-bold">{selectedTurma}S</h1>
 			{Object.entries(campeoes[selectedTurma as keyof typeof campeoes]).map(
 				([modalidade, campeoesPorModalidade]) => (
 					<ModalidadePodio
