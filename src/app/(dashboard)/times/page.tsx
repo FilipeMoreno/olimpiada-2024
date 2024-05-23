@@ -194,15 +194,15 @@ export default function TimesIndex() {
 			{Object.keys(groupedTimes).map((serie) => (
 				<div key={serie}>
 					<h2 className="text-2xl font-bold my-4">{serie}S</h2>
-					<div className="flex flex-col md:flex-row flex-wrap gap-4 w-full">
+					<div className="flex flex-col md:flex-row flex-wrap gap-3 w-full">
 						{groupedTimes[serie].map((time) => (
 							<Card key={time.id} className="md:w-[220px] w-full">
 								<CardHeader>
-									<CardTitle>
+									<CardTitle className="font-bold text-center ">
 										{time.serie} {time.turma}
 									</CardTitle>
 								</CardHeader>
-								<CardContent className="flex flex-col items-center gap-2">
+								<CardContent className="flex flex-col items-center gap-4">
 									<Image
 										src={time.bandeira}
 										width={100}

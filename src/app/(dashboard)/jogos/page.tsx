@@ -4,13 +4,19 @@ import { Badge } from "@/components/ui/badge";
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
+import { MdBlock } from "react-icons/md";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@radix-ui/react-dropdown-menu";
+import { Input } from "postcss";
 import { type JSX, type SVGProps, useState } from "react";
+import { Button } from "react-day-picker";
 
 interface JogosProps {
 	id: number;
@@ -32,6 +38,9 @@ interface JogosProps {
 }
 
 export default function JogosIndex() {
+	const liberado = true;
+	const [periodo, setPeriodo] = useState("Manhã");
+
 	const [jogos, setJogos] = useState<JogosProps[]>([
 		{
 			id: 1,
@@ -213,116 +222,153 @@ export default function JogosIndex() {
 	const jogosTarde = jogos.filter((jogo) => jogo.periodo === "Tarde");
 	return (
 		<div className="flex flex-col w-full">
-			<main className="flex flex-1 flex-col gap-4 p-4 w-full">
-				<div className="flex flex-col gap-4 w-full">
-					{jogosManha.map((jogo) => {
-						function determinarVencedor(jogo: JogosProps) {
-							if (jogo.finalizado) {
-								if (jogo.placarA > jogo.placarB) {
-									return "equipeA";
+			<Tabs defaultValue={periodo} className="w-full my-2">
+				<TabsList className="grid w-full grid-cols-2">
+					<TabsTrigger value="manha">Manhã</TabsTrigger>
+					<TabsTrigger value="tardec">Tarde</TabsTrigger>
+				</TabsList>
+				<TabsContent value="manha">
+					<p>Manha</p>
+				</TabsContent>
+				<TabsContent value="tardec">
+					<p>Tardfe</p>
+				</TabsContent>
+			</Tabs>
+			{liberado && (
+				<main className="flex flex-1 flex-col gap-4 w-full">
+					<div className="flex flex-col gap-4 w-full">
+						{jogosManha.map((jogo) => {
+							function determinarVencedor(jogo: JogosProps) {
+								if (jogo.finalizado) {
+									if (jogo.placarA > jogo.placarB) {
+										return "equipeA";
+									}
+									if (jogo.placarA < jogo.placarB) {
+										return "equipeB";
+									}
 								}
-								if (jogo.placarA < jogo.placarB) {
-									return "equipeB";
-								}
+								return "empate";
 							}
-							return null; // Empate
-						}
 
-						return (
-							<Card key={jogo.id} className="flex flex-col bg-secondary w-full">
-								<CardHeader>
-									<CardTitle>
-										<div className="flex justify-center items-center gap-2">
-											<span>Jogo {jogo.numeroJogo}</span>
-											<span>•</span>
-											<span>
-												{jogo.data} às {jogo.hora}
-											</span>
-										</div>
-									</CardTitle>
-								</CardHeader>
-								<CardContent>
-									<div
-										className={`flex flex-row justify-center items-center gap-2 ${
-											jogo.finalizado ? "font-normal" : "font-bold"
-										}`}
-									>
+							return (
+								<Card
+									key={jogo.id}
+									className="flex flex-col bg-secondary w-full"
+								>
+									<CardHeader>
+										<CardTitle>
+											<div className="flex justify-center items-center gap-2">
+												<span>Jogo {jogo.numeroJogo}</span>
+												<span>•</span>
+												<span>
+													{jogo.data} às {jogo.hora}
+												</span>
+											</div>
+										</CardTitle>
+									</CardHeader>
+									<CardContent>
 										<div
-											className={`flex justify-between items-center gap-2 ${
-												determinarVencedor(jogo) === "equipeA"
-													? "text-green-500 font-bold"
-													: ""
+											className={`flex flex-row justify-center items-center gap-2 ${
+												jogo.finalizado ? "font-normal" : "font-bold"
 											}`}
 										>
-											<span className="flex flex-row gap-2">
-												<Image
-													src={jogo.imagemA || "/bandeiras/sem_foto.png"}
-													alt={`Bandeira do ${jogo.equipeA}`}
-													width={32}
-													height={32}
-													className="rounded-md"
-												/>
-												{jogo.equipeA} ({jogo.representanteA})
-											</span>
-
-											{jogo.finalizado && (
-												<span className="font-bold text-4xl">
-													{jogo.placarA}
+											<div className="flex justify-between items-center gap-2">
+												<span className="text-center flex flex-col lg:flex-row justify-center items-center gap-2">
+													<Image
+														src={jogo.imagemA || "/bandeiras/sem_foto.png"}
+														alt={`Bandeira do ${jogo.equipeA}`}
+														width={32}
+														height={32}
+														className="rounded-md"
+													/>
+													{jogo.equipeA} ({jogo.representanteA})
 												</span>
-											)}
-										</div>
-										<span>x</span>
-										<div
-											className={`flex justify-between items-center gap-2 ${
-												determinarVencedor(jogo) === "equipeB"
-													? "text-green-500 font-bold"
-													: ""
-											}`}
-										>
-											{jogo.finalizado && (
-												<span className="font-bold text-4xl">
-													{jogo.placarB}
-												</span>
-											)}
 
-											<span className="flex flex-row gap-2">
-												{jogo.equipeB} ({jogo.representanteB}){" "}
-												<Image
-													src={jogo.imagemB || "/bandeiras/sem_foto.png"}
-													alt={`Bandeira do ${jogo.equipeB}`}
-													width={32}
-													height={32}
-													className="rounded-md"
-												/>
-											</span>
+												{jogo.finalizado && (
+													<span
+														className={`font-bold text-4xl ${
+															determinarVencedor(jogo) === "empate"
+																? "text-yellow-500 font-bold"
+																: determinarVencedor(jogo) === "equipeA"
+																	? "text-green-500 font-bold"
+																	: "text-red-500 font-bold"
+														}`}
+													>
+														{jogo.placarA}
+													</span>
+												)}
+											</div>
+											<span>x</span>
+											<div className="flex justify-between items-center gap-2">
+												{jogo.finalizado && (
+													<span
+														className={`font-bold text-4xl ${
+															determinarVencedor(jogo) === "empate"
+																? "text-yellow-500 font-bold"
+																: determinarVencedor(jogo) === "equipeB"
+																	? "text-green-500 font-bold"
+																	: "text-red-500 font-bold"
+														}`}
+													>
+														{jogo.placarB}
+													</span>
+												)}
+												<span className="text-center flex lg:hidden flex-col lg:flex-row justify-center items-center gap-2">
+													<Image
+														src={jogo.imagemB || "/bandeiras/sem_foto.png"}
+														alt={`Bandeira do ${jogo.equipeB}`}
+														width={32}
+														height={32}
+														className="rounded-md"
+													/>
+													{jogo.equipeB} ({jogo.representanteB})
+												</span>
+
+												<span className="hidden lg:flex gap-2">
+													{jogo.equipeB} ({jogo.representanteB}){" "}
+													<Image
+														src={jogo.imagemB || "/bandeiras/sem_foto.png"}
+														alt={`Bandeira do ${jogo.equipeB}`}
+														width={32}
+														height={32}
+														className="rounded-md"
+													/>
+												</span>
+											</div>
 										</div>
-									</div>
-								</CardContent>
-								<CardFooter className="flex justify-center gap-4">
-									<Badge
-										className={
-											jogo.finalizado ? "bg-green-500" : "bg-yellow-500"
-										}
-									>
-										{jogo.status}
-									</Badge>
-									<div>
+									</CardContent>
+									<CardFooter className="flex justify-center gap-4">
 										<Badge
 											className={
-												(jogo.modalidade === "Futsal Feminino" &&
-													"bg-pink-400") ||
-												"bg-blue-400"
+												jogo.finalizado ? "bg-green-500" : "bg-yellow-500"
 											}
 										>
-											{jogo.modalidade}
+											{jogo.status}
 										</Badge>
-									</div>
-								</CardFooter>
-							</Card>
-						);
-					})}
+										<div>
+											<Badge
+												className={
+													(jogo.modalidade === "Futsal Feminino" &&
+														"bg-pink-400") ||
+													"bg-blue-400"
+												}
+											>
+												{jogo.modalidade}
+											</Badge>
+										</div>
+									</CardFooter>
+								</Card>
+							);
+						})}
+					</div>
+				</main>
+			)}
+			{!liberado && (
+				<div className="flex flex-col w-full items-center justify-center bg-secondary p-4 rounded-lg gap-3">
+					<MdBlock className="text-red-500" size={50} />
+					<h1 className="text-2xl font-bold">ainda não existem jogos</h1>
 				</div>
-			</main>
+			)}
 		</div>
 	);
 }
